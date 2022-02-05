@@ -17,6 +17,13 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Java -->
+        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
     </properties>
+
+    <modules>
+        <module>note-share-service</module>
+    </modules>
 
 </project>
