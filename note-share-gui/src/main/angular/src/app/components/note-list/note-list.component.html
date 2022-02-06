@@ -1,0 +1,7 @@
+<h1>Notes</h1>
+
+<ul>
+  <li *ngFor="let note of (notes$ | async)">
+    <a [routerLink]="['/note/' + note.id]">#{{ note.id }} {{ note.title }}</a>
+  </li>
+</ul>
