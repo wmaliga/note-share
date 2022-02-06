@@ -1,3 +1,4 @@
-<h1>Note #{{ (note$ | async)?.id }}</h1>
-<p>{{ (note$ | async)?.title }}</p>
+<h1 class="content-subhead">Note Details</h1>
+<h2 class="note-title">{{ (note$ | async)?.title }}</h2>
+<p class="note-meta">Note #{{ (note$ | async)?.id }} <span class="tag tag-green">Public</span></p>
 <p>{{ (note$ | async)?.data }}</p>

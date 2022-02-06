@@ -1,7 +1,6 @@
-<h1>Notes</h1>
+<h1 class="content-subhead">Public Notes</h1>
 
-<ul>
-  <li *ngFor="let note of (notes$ | async)">
-    <a [routerLink]="['/note/' + note.id]">#{{ note.id }} {{ note.title }}</a>
-  </li>
-</ul>
+<section *ngFor="let note of (notes$ | async)" >
+  <h2 class="note-title" [routerLink]="['/note/' + note.id]">{{ note.title }}</h2>
+  <p class="note-meta">Note #{{ note.id }} <span class="tag tag-green">Public</span></p>
+</section>
