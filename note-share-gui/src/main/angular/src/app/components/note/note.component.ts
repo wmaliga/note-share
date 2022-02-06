@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NoteService } from "../../service/note.service";
+import { Observable } from "rxjs";
+import { Note } from "../../model/note.model";
 
 @Component({
   selector: 'app-note',
@@ -7,7 +10,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NoteComponent implements OnInit {
 
-  constructor() { }
+  note$: Observable<Note>;
+
+  constructor(private readonly noteService: NoteService) {
+    this.note$ = this.noteService.findNoteById(1);
+  }
 
   ngOnInit(): void {
   }

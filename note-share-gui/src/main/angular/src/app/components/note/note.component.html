@@ -1,1 +1,3 @@
-<p>note works!</p>
+<h1>Note #{{ (note$ | async)?.id }}</h1>
+<p>{{ (note$ | async)?.title }}</p>
+<p>{{ (note$ | async)?.data }}</p>
