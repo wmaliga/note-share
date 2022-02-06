@@ -1,4 +1,4 @@
-package com.wojtek.noteshare.service.v1;
+package com.wojtek.noteshare.controller;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,22 +6,25 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class NoteServiceTest {
+public class NoteControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    public void smokeTest() throws Exception {
+    public void findAllNotes() throws Exception {
         this.mockMvc.perform(get("/api/v1/notes"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(equalTo("TODO")));
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void findNoteById() throws Exception {
+        this.mockMvc.perform(get("/api/v1/notes/1"))
+                .andExpect(status().isOk());
     }
 }
