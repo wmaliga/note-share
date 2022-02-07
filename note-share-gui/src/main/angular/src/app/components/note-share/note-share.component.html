@@ -1,0 +1,13 @@
+<h1 class="content-subhead">Share a note!</h1>
+<form [formGroup]="form" class="pure-form pure-form-stacked">
+  <fieldset>
+    <label for="title">Title</label>
+    <input formControlName="title" type="text" class="pure-input-1" id="title" placeholder="Insert title of a note"/>
+  </fieldset>
+  <fieldset>
+    <label for="data">Note</label>
+    <textarea formControlName="data" class="pure-input-1" id="data" placeholder="Your note here"></textarea>
+  </fieldset>
+  <button (click)="shareNote()" [disabled]="!form.valid" class="pure-button pure-button-primary">Share!</button>
+  <button (click)="clearForm()" [disabled]="!form.dirty" class="pure-button align-right">Clear</button>
+</form>
