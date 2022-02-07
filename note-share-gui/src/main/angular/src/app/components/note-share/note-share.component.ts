@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { NoteService } from "../../service/note.service";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: 'app-note-share',
@@ -13,7 +14,8 @@ export class NoteShareComponent implements OnInit {
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    private readonly noteService: NoteService
+    private readonly noteService: NoteService,
+    private readonly toast: ToastrService
   ) {
     this.form = this.newForm();
   }
@@ -24,9 +26,19 @@ export class NoteShareComponent implements OnInit {
   shareNote() {
     this.noteService.shareNote(this.form.value)
       .subscribe({
-        next: () => this.form.reset(),
-        error: error => console.log(error)
+        next: () => this.onShareSuccess(),
+        error: error => this.onShareError(error)
       });
+  }
+
+  private onShareSuccess() {
+    this.form.reset();
+    this.toast.success("Note shared successfully!")
+  }
+
+  private onShareError(error: any) {
+    this.toast.error("Ups! Something went wrong...")
+    console.log(error);
   }
 
   clearForm() {
