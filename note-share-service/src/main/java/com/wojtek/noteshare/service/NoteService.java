@@ -9,4 +9,6 @@ public interface NoteService {
     List<Note> findAllNotes();
 
     Note findNoteById(long id);
+
+    void saveNote(Note note);
 }

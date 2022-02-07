@@ -3,3 +3,8 @@ export interface Note {
   title: string;
   data: string;
 }
+
+export interface NoteShare {
+  title: string;
+  data: string;
+}

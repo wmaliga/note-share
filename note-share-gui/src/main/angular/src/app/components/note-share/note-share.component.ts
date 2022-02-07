@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { NoteService } from "../../service/note.service";
 
 @Component({
   selector: 'app-note-share',
@@ -11,7 +12,8 @@ export class NoteShareComponent implements OnInit {
   form: FormGroup;
 
   constructor(
-    private readonly formBuilder: FormBuilder
+    private readonly formBuilder: FormBuilder,
+    private readonly noteService: NoteService
   ) {
     this.form = this.newForm();
   }
@@ -20,8 +22,11 @@ export class NoteShareComponent implements OnInit {
   }
 
   shareNote() {
-    console.log(this.form.value);
-    this.form.reset();
+    this.noteService.shareNote(this.form.value)
+      .subscribe({
+        next: () => this.form.reset(),
+        error: error => console.log(error)
+      });
   }
 
   clearForm() {

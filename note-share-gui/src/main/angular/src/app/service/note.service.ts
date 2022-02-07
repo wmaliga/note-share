@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { Note } from "../model/note.model";
+import { Note, NoteShare } from "../model/note.model";
 
 @Injectable({
   providedIn: 'root'
@@ -19,5 +19,9 @@ export class NoteService {
 
   findNoteById(id: number): Observable<Note> {
     return this.http.get<Note>(`${this.url}/${id}`);
+  }
+
+  shareNote(note: NoteShare) {
+    return this.http.post(this.url, note);
   }
 }

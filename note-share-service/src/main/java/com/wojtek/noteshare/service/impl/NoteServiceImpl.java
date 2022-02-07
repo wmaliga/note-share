@@ -29,4 +29,9 @@ public class NoteServiceImpl implements NoteService {
         return this.noteRepository.findById(id)
                 .orElseThrow(NoteNotFoundException::new);
     }
+
+    @Override
+    public void saveNote(Note note) {
+        this.noteRepository.save(note);
+    }
 }

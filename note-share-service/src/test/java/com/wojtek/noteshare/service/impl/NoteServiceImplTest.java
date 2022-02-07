@@ -31,11 +31,20 @@ public class NoteServiceImplTest {
 
     @Test
     public void findNoteByIdTest() {
-        Note note = mock(Note.class);
+        Note note = new Note();
         when(this.noteRepositoryMock.findById(1L)).thenReturn(Optional.of(note));
 
         Note result = this.noteService.findNoteById(1L);
 
         assertThat(result).isEqualTo(note);
+    }
+
+    @Test
+    public void saveNoteTest() {
+        Note note = new Note();
+
+        this.noteService.saveNote(note);
+
+        verify(this.noteRepositoryMock).save(note);
     }
 }
