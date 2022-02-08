@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface NoteService {
 
-    List<Note> findAllNotes();
+    List<Note> findPublicNotes();
 
     Note findNoteById(long id);
 

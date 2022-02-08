@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { map, Observable, switchMap } from "rxjs";
 import { ActivatedRoute } from "@angular/router";
 
-import { Note } from "../../model/note.model";
+import { map, Observable, switchMap } from "rxjs";
+
+import { Note, NoteType } from "../../model/note.model";
 import { NoteService } from "../../service/note.service";
 
 @Component({
@@ -11,6 +12,8 @@ import { NoteService } from "../../service/note.service";
   styleUrls: ['./note-details.component.css']
 })
 export class NoteDetailsComponent implements OnInit {
+
+  readonly noteType = NoteType;
 
   note$: Observable<Note>;
 

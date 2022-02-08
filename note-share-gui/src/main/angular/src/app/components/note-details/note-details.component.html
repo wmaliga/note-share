@@ -1,4 +1,9 @@
-<h1 class="content-subhead">Note Details</h1>
-<h2 class="note-title">{{ (note$ | async)?.title }}</h2>
-<p class="note-meta">Note #{{ (note$ | async)?.id }} <span class="tag tag-green">Public</span></p>
-<p>{{ (note$ | async)?.data }}</p>
+<div *ngIf="note$ | async as note">
+  <h1 class="content-subhead">Note Details</h1>
+  <h2 class="note-title">{{ note.title }}</h2>
+  <p class="note-meta">Note #{{ note.id }}
+    <span *ngIf="note.type === noteType.PRIVATE" class="tag tag-red">Private</span>
+    <span *ngIf="note.type === noteType.PUBLIC" class="tag tag-green">Public</span>
+  </p>
+  <p>{{ (note$ | async)?.data }}</p>
+</div>

@@ -2,5 +2,8 @@
 
 <section *ngFor="let note of (notes$ | async)" >
   <h2 class="note-title" [routerLink]="['/note/' + note.id]">{{ note.title }}</h2>
-  <p class="note-meta">Note #{{ note.id }} <span class="tag tag-green">Public</span></p>
+  <p class="note-meta">Note #{{ note.id }}
+    <span *ngIf="note.type === noteType.PRIVATE" class="tag tag-red">Private</span>
+    <span *ngIf="note.type === noteType.PUBLIC" class="tag tag-green">Public</span>
+  </p>
 </section>

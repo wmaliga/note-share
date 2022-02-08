@@ -2,6 +2,7 @@ package com.wojtek.noteshare.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wojtek.noteshare.repository.model.Note;
+import com.wojtek.noteshare.util.NoteTestBuilder;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -24,7 +25,7 @@ public class NoteControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    public void findAllNotesTest() throws Exception {
+    public void findPublicNotesTest() throws Exception {
         this.mockMvc.perform(get("/api/v1/notes"))
                 .andExpect(status().isOk());
     }
@@ -36,14 +37,39 @@ public class NoteControllerTest {
     }
 
     @Test
-    public void shareNoteTest() throws Exception {
-        this.mockMvc.perform(post("/api/v1/notes")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(this.objectMapper.writeValueAsString(note())))
-                .andExpect(status().isOk());
+    public void findNoteByIdMissingNoteTest() throws Exception {
+        this.mockMvc.perform(get("/api/v1/notes/999999"))
+                .andExpect(status().isNotFound());
     }
 
-    private Note note() {
-        return Note.builder().title("title").data("data").build();
+    @Test
+    public void sharePublicNoteTest() throws Exception {
+        Note note = NoteTestBuilder.publicNote();
+
+        this.mockMvc.perform(post("/api/v1/notes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(this.objectMapper.writeValueAsString(note)))
+                .andExpect(status().isCreated());
+    }
+
+    @Test
+    public void sharePrivateNoteTest() throws Exception {
+        Note note = NoteTestBuilder.privateNote();
+
+        this.mockMvc.perform(post("/api/v1/notes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(this.objectMapper.writeValueAsString(note)))
+                .andExpect(status().isCreated());
+    }
+
+    @Test
+    public void sharePrivateNoteWithoutPasswordTest() throws Exception {
+        Note note = NoteTestBuilder.privateNote();
+        note.setPassword("");
+
+        this.mockMvc.perform(post("/api/v1/notes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(this.objectMapper.writeValueAsString(note)))
+                .andExpect(status().isUnprocessableEntity());
     }
 }

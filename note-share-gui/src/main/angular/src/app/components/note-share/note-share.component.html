@@ -1,5 +1,19 @@
 <h1 class="content-subhead">Share a note!</h1>
 <form [formGroup]="form" class="pure-form pure-form-stacked">
+  <div class="pure-u-1 pure-u-md-1-5">
+    <fieldset>
+      <label for="radio-private" class="pure-radio">
+        <input type="radio" id="radio-private" formControlName="type" value="PRIVATE"/> Private note
+      </label>
+      <label for="radio-private" class="pure-radio">
+        <input type="radio" id="radio-public" formControlName="type" value="PUBLIC"/> Public note
+      </label>
+    </fieldset>
+  </div>
+  <div [hidden]="form.value.type === noteType.PUBLIC" class="pure-u-1 pure-u-md-4-5">
+    <label for="password">Password</label>
+    <input formControlName="password" type="password" class="pure-input-1" id="password"/>
+  </div>
   <fieldset>
     <label for="title">Title</label>
     <input formControlName="title" type="text" class="pure-input-1" id="title" placeholder="Insert title of a note"/>

@@ -6,9 +6,11 @@ import com.wojtek.noteshare.repository.model.Note;
 import com.wojtek.noteshare.service.NoteService;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -29,8 +31,8 @@ public class NoteController {
     private final Mapper mapper;
 
     @GetMapping("")
-    public List<NoteTo> findAllNotes() {
-        return this.noteService.findAllNotes().stream()
+    public List<NoteTo> findPublicNotes() {
+        return this.noteService.findPublicNotes().stream()
                 .map(note -> this.mapper.map(note, NoteTo.class))
                 .collect(toList());
     }
@@ -42,8 +44,10 @@ public class NoteController {
     }
 
     @PostMapping("")
-    public void saveNote(@Valid @RequestBody NoteShareTo noteShare) {
+    public ResponseEntity<Void> saveNote(@Valid @RequestBody NoteShareTo noteShare) {
         Note note = this.mapper.map(noteShare, Note.class);
         this.noteService.saveNote(note);
+
+        return ResponseEntity.created(URI.create(note.getId().toString())).build();
     }
 }

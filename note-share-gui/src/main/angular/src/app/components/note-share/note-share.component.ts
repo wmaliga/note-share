@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { NoteService } from "../../service/note.service";
 import { ToastrService } from "ngx-toastr";
+import { NoteType } from "../../model/note.model";
 
 @Component({
   selector: 'app-note-share',
@@ -9,6 +10,8 @@ import { ToastrService } from "ngx-toastr";
   styleUrls: ['./note-share.component.css']
 })
 export class NoteShareComponent implements OnInit {
+
+  readonly noteType = NoteType;
 
   form: FormGroup;
 
@@ -42,11 +45,13 @@ export class NoteShareComponent implements OnInit {
   }
 
   clearForm() {
-    this.form.reset();
+    this.form = this.newForm();
   }
 
   private newForm() {
     return this.formBuilder.group({
+      type: [NoteType.PRIVATE, Validators.required],
+      password: [''],
       title: ['', Validators.required],
       data: ['', Validators.required]
     });

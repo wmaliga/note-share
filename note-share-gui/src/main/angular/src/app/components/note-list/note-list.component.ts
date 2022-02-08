@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from "rxjs";
 
-import { Note } from "../../model/note.model";
+import { Note, NoteType } from "../../model/note.model";
 import { NoteService } from "../../service/note.service";
 
 @Component({
@@ -10,6 +10,8 @@ import { NoteService } from "../../service/note.service";
   styleUrls: ['./note-list.component.css']
 })
 export class NoteListComponent implements OnInit {
+
+  readonly noteType = NoteType;
 
   notes$: Observable<Note[]>;
 
