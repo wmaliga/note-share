@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -40,6 +41,13 @@ public class NoteControllerTest {
     public void findNoteByIdMissingNoteTest() throws Exception {
         this.mockMvc.perform(get("/api/v1/notes/999999"))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void getNoteTypeTest() throws Exception {
+        this.mockMvc.perform(get("/api/v1/notes/1/type"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("PUBLIC"));
     }
 
     @Test

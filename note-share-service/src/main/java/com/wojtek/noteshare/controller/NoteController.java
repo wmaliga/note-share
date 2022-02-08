@@ -3,6 +3,7 @@ package com.wojtek.noteshare.controller;
 import com.wojtek.noteshare.controller.to.NoteShareTo;
 import com.wojtek.noteshare.controller.to.NoteTo;
 import com.wojtek.noteshare.repository.model.Note;
+import com.wojtek.noteshare.repository.model.NoteType;
 import com.wojtek.noteshare.service.NoteService;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,12 @@ public class NoteController {
     public NoteTo findNoteById(@PathVariable Long id) {
         Note note = this.noteService.findNoteById(id);
         return this.mapper.map(note, NoteTo.class);
+    }
+
+    @GetMapping("/{id}/type")
+    public String getNoteType(@PathVariable Long id) {
+        Note note = this.noteService.findNoteById(id);
+        return note.getType().toString();
     }
 
     @PostMapping("")
