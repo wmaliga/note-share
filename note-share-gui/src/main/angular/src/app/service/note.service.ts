@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { Note, NoteShare } from "../model/note.model";
+import { Note, NoteShare, NoteType } from "../model/note.model";
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +17,18 @@ export class NoteService {
     return this.http.get<Note[]>(this.url);
   }
 
-  findNoteById(id: number): Observable<Note> {
-    return this.http.get<Note>(`${this.url}/${id}`);
+  getNoteType(id: number): Observable<NoteType> {
+    return this.http.get<NoteType>(`${this.url}/${id}/type`)
+  }
+
+  getNote(id: number, password?: string): Observable<Note> {
+    let headers = new HttpHeaders();
+
+    if (password) {
+      headers = headers.set('Authorization', password);
+    }
+
+    return this.http.get<Note>(`${this.url}/${id}`, {headers: headers});
   }
 
   shareNote(note: NoteShare) {

@@ -1,9 +1,16 @@
-<div *ngIf="note$ | async as note">
-  <h1 class="content-subhead">Note Details</h1>
+<h1 class="content-subhead">Note Details</h1>
+<div *ngIf="type === noteType.PRIVATE && note === null">
+  <form [formGroup]="form" class="pure-form pure-form-stacked">
+    <label for="password">Password</label>
+    <input formControlName="password" id="password" type="text" class="pure-input-1" placeholder="Note is password protected"/>
+    <button (click)="loadNote()" [disabled]="!form.valid" class="pure-button pure-button-primary">Open</button>
+  </form>
+</div>
+<div *ngIf="note">
   <h2 class="note-title">{{ note.title }}</h2>
   <p class="note-meta">Note #{{ note.id }}
     <span *ngIf="note.type === noteType.PRIVATE" class="tag tag-red">Private</span>
     <span *ngIf="note.type === noteType.PUBLIC" class="tag tag-green">Public</span>
   </p>
-  <p>{{ (note$ | async)?.data }}</p>
+  <p>{{ note.data }}</p>
 </div>

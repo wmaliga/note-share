@@ -38,16 +38,16 @@ public class NoteController {
                 .collect(toList());
     }
 
-    @GetMapping("/{id}")
-    public NoteTo findNoteById(@PathVariable Long id) {
-        Note note = this.noteService.findNoteById(id);
-        return this.mapper.map(note, NoteTo.class);
+    @GetMapping("/{id}/type")
+    public NoteType getNoteType(@PathVariable Long id) {
+        return this.noteService.getNoteType(id);
     }
 
-    @GetMapping("/{id}/type")
-    public String getNoteType(@PathVariable Long id) {
-        Note note = this.noteService.findNoteById(id);
-        return note.getType().toString();
+    @GetMapping("/{id}")
+    public NoteTo getNote(@PathVariable Long id,
+                          @RequestHeader(name = "Authorization", required = false) String password) {
+        Note note = this.noteService.getNote(id, password);
+        return this.mapper.map(note, NoteTo.class);
     }
 
     @PostMapping("")
