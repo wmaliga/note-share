@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+      https://dozer.sourceforge.net/schema/beanmapping.xsd">
+    <mapping>
+        <class-a>com.wojtek.noteshare.repository.model.Note</class-a>
+        <class-b>com.wojtek.noteshare.controller.to.NoteTo</class-b>
+        <field copy-by-reference="true">
+            <a>expirationDate</a>
+            <b>expirationDate</b>
+        </field>
+    </mapping>
+
+    <mapping>
+        <class-a>com.wojtek.noteshare.repository.model.Note</class-a>
+        <class-b>com.wojtek.noteshare.controller.to.NoteShareTo</class-b>
+        <field copy-by-reference="true">
+            <a>expirationDate</a>
+            <b>expirationDate</b>
+        </field>
+    </mapping>
+</mappings>

@@ -8,7 +8,7 @@
 </div>
 <div *ngIf="note">
   <h2 class="note-title">{{ note.title }}</h2>
-  <p class="note-meta">Note #{{ note.id }}
+  <p class="note-meta">Note #{{ note.id }} expires after: {{ note.expirationDate | date:'YYYY-MM-dd' }}
     <span *ngIf="note.type === noteType.PRIVATE" class="tag tag-red">Private</span>
     <span *ngIf="note.type === noteType.PUBLIC" class="tag tag-green">Public</span>
   </p>

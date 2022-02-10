@@ -82,7 +82,7 @@ public class NoteControllerTest {
     }
 
     @Test
-    public void sharePrivateNoteWithoutPasswordTest() throws Exception {
+    public void shareIncorrectNoteTest() throws Exception {
         Note note = NoteTestBuilder.privateNote();
         note.setPassword("");
 

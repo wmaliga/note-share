@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static java.time.LocalDate.now;
 import static java.util.Optional.of;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -100,9 +101,19 @@ public class NoteServiceImplTest {
     }
 
     @Test
+    public void saveNoteWithPastDateTest() {
+        Note note = NoteTestBuilder.publicNote();
+        note.setExpirationDate(now().minusDays(1));
+
+        assertThatExceptionOfType(InvalidDataException.class)
+                .isThrownBy(() -> this.noteService.saveNote(note));
+
+        verify(this.noteRepositoryMock, never()).save(note);
+    }
+
+    @Test
     public void savePrivateNoteWithoutPasswordTest() {
         Note note = NoteTestBuilder.privateNote();
-        NoteTestBuilder.privateNote();
         note.setPassword("");
 
         assertThatExceptionOfType(InvalidDataException.class)

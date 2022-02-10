@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { DatePipe } from "@angular/common";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { NoteService } from "../../service/note.service";
+
 import { ToastrService } from "ngx-toastr";
+
+import { NoteService } from "../../service/note.service";
 import { NoteType } from "../../model/note.model";
 
 @Component({
@@ -11,12 +14,15 @@ import { NoteType } from "../../model/note.model";
 })
 export class NoteShareComponent implements OnInit {
 
+  private readonly DATE_REGEX = '^(20)\\d\\d(-)(0[1-9]|1[012])\\2(0[1-9]|[12][0-9]|3[01])$';
+
   readonly noteType = NoteType;
 
   form: FormGroup;
 
   constructor(
     private readonly formBuilder: FormBuilder,
+    private readonly datePipe: DatePipe,
     private readonly noteService: NoteService,
     private readonly toast: ToastrService
   ) {
@@ -53,7 +59,14 @@ export class NoteShareComponent implements OnInit {
       type: [NoteType.PRIVATE, Validators.required],
       password: [''],
       title: ['', Validators.required],
+      expirationDate: [this.dateAfter(10), [Validators.required, Validators.pattern(this.DATE_REGEX)]],
       data: ['', Validators.required]
     });
+  }
+
+  private dateAfter(days: number) {
+    let date = new Date();
+    date.setDate(date.getDate() + days);
+    return this.datePipe.transform(date, 'YYYY-MM-dd');
   }
 }

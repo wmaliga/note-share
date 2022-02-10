@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static java.time.LocalDate.now;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 @Service
@@ -52,6 +53,10 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public void saveNote(Note note) {
+        if (note.getExpirationDate().isBefore(now())) {
+            throw new InvalidDataException("Expiration date cannot be in the past");
+        }
+
         if (note.getType() == NoteType.PRIVATE) {
             if (isEmpty(note.getPassword())) {
                 throw new InvalidDataException("Missing password for private note");

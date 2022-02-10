@@ -1,13 +1,11 @@
 package com.wojtek.noteshare.repository.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -28,6 +26,9 @@ public class Note {
 
     @NotBlank
     private String title;
+
+    @NonNull
+    private LocalDate expirationDate;
 
     @NotBlank
     private String data;
