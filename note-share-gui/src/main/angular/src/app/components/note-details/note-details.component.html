@@ -2,7 +2,8 @@
 <div *ngIf="type === noteType.PRIVATE && note === null">
   <form [formGroup]="form" class="pure-form pure-form-stacked">
     <label for="password">Password</label>
-    <input formControlName="password" id="password" type="text" class="pure-input-1" placeholder="Note is password protected"/>
+    <input formControlName="password" id="password" type="text" class="pure-input-1"
+           placeholder="Note is password protected"/>
     <button (click)="loadNote()" [disabled]="!form.valid" class="pure-button pure-button-primary">Open</button>
   </form>
 </div>
@@ -13,4 +14,7 @@
     <span *ngIf="note.type === noteType.PUBLIC" class="tag tag-green">Public</span>
   </p>
   <p>{{ note.data }}</p>
+</div>
+<div class="align-center">
+  <div *ngIf="loading" id="loading"></div>
 </div>

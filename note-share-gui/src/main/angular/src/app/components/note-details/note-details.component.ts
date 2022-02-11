@@ -19,6 +19,7 @@ export class NoteDetailsComponent implements OnInit {
 
   form: FormGroup;
 
+  loading: boolean = true;
   id$: Observable<number> = EMPTY;
   type: NoteType | null = null;
   note: Note | null = null;
@@ -63,9 +64,13 @@ export class NoteDetailsComponent implements OnInit {
       take(1),
       switchMap(id => this.noteService.getNote(id, this.form.value.password))
     ).subscribe({
-      next: note => this.note = note,
+      next: note => this.setNote(note),
       error: () => this.toast.error("Password not accepted.")
     });
   }
 
+  setNote(note: Note) {
+    this.note = note;
+    this.loading = false;
+  }
 }

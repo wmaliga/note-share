@@ -7,3 +7,6 @@
     <span *ngIf="note.type === noteType.PUBLIC" class="tag tag-green">Public</span>
   </p>
 </section>
+<div class="align-center">
+  <div *ngIf="!(notes$ | async)" id="loading"></div>
+</div>
