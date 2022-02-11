@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from "@angular/common";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 
 import { ToastrService } from "ngx-toastr";
 
@@ -59,7 +59,7 @@ export class NoteShareComponent implements OnInit {
       type: [NoteType.PRIVATE, Validators.required],
       password: [''],
       title: ['', Validators.required],
-      expirationDate: [this.dateAfter(10), [Validators.required, Validators.pattern(this.DATE_REGEX)]],
+      expirationDate: [this.dateAfter(10), [Validators.required, Validators.pattern(this.DATE_REGEX), NoteShareComponent.futureDateValidator]],
       data: ['', Validators.required]
     });
   }
@@ -68,5 +68,13 @@ export class NoteShareComponent implements OnInit {
     let date = new Date();
     date.setDate(date.getDate() + days);
     return this.datePipe.transform(date, 'YYYY-MM-dd');
+  }
+
+  private static futureDateValidator(control: FormControl) {
+    return new Date(Date.parse(control.value)) > new Date() ? null : {
+      'futureDateValidator': {
+        valid: false
+      }
+    };
   }
 }
