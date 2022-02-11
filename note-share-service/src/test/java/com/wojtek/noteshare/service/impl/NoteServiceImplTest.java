@@ -2,6 +2,7 @@ package com.wojtek.noteshare.service.impl;
 
 import com.wojtek.noteshare.exception.InvalidDataException;
 import com.wojtek.noteshare.exception.NoteAuthorizationException;
+import com.wojtek.noteshare.exception.NoteExpiredException;
 import com.wojtek.noteshare.repository.NoteRepository;
 import com.wojtek.noteshare.repository.model.Note;
 import com.wojtek.noteshare.repository.model.NoteType;
@@ -36,7 +37,7 @@ public class NoteServiceImplTest {
     public void findPublicNotesTest() {
         this.noteService.findPublicNotes();
 
-        verify(this.noteRepositoryMock).findByTypeEquals(NoteType.PUBLIC);
+        verify(this.noteRepositoryMock).findPublicNotes();
     }
 
     @Test
@@ -60,9 +61,19 @@ public class NoteServiceImplTest {
     }
 
     @Test
+    public void getExpiredNoteTest() {
+        Note note = NoteTestBuilder.publicNoteBuilder()
+                .expirationDate(now().minusDays(1)).build();
+        when(this.noteRepositoryMock.findById(ID)).thenReturn(of(note));
+
+        assertThatExceptionOfType(NoteExpiredException.class)
+                .isThrownBy(() -> this.noteService.getNote(ID, null));
+    }
+
+    @Test
     public void getPrivateNoteWithPasswordTest() {
-        Note note = NoteTestBuilder.privateNote();
-        note.setPassword(PasswordUtil.encryptPassword(PASSWORD));
+        Note note = NoteTestBuilder.privateNoteBuilder()
+                .password(PasswordUtil.encryptPassword(PASSWORD)).build();
 
         when(this.noteRepositoryMock.findById(ID)).thenReturn(of(note));
 
@@ -73,8 +84,8 @@ public class NoteServiceImplTest {
 
     @Test
     public void getPrivateNoteWithoutPasswordTest() {
-        Note note = NoteTestBuilder.privateNote();
-        note.setPassword(PasswordUtil.encryptPassword(PASSWORD));
+        Note note = NoteTestBuilder.privateNoteBuilder()
+                .password(PasswordUtil.encryptPassword(PASSWORD)).build();
 
         when(this.noteRepositoryMock.findById(ID)).thenReturn(of(note));
 
@@ -102,8 +113,8 @@ public class NoteServiceImplTest {
 
     @Test
     public void saveNoteWithPastDateTest() {
-        Note note = NoteTestBuilder.publicNote();
-        note.setExpirationDate(now().minusDays(1));
+        Note note = NoteTestBuilder.publicNoteBuilder()
+                .expirationDate(now().minusDays(1)).build();
 
         assertThatExceptionOfType(InvalidDataException.class)
                 .isThrownBy(() -> this.noteService.saveNote(note));
@@ -113,8 +124,8 @@ public class NoteServiceImplTest {
 
     @Test
     public void savePrivateNoteWithoutPasswordTest() {
-        Note note = NoteTestBuilder.privateNote();
-        note.setPassword("");
+        Note note = NoteTestBuilder.privateNoteBuilder()
+                .password("").build();
 
         assertThatExceptionOfType(InvalidDataException.class)
                 .isThrownBy(() -> this.noteService.saveNote(note));

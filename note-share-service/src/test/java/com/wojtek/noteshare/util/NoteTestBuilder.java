@@ -8,20 +8,25 @@ import static java.time.LocalDate.now;
 public class NoteTestBuilder {
 
     public static Note publicNote() {
-        return note(NoteType.PUBLIC);
+        return publicNoteBuilder().build();
+    }
+
+    public static Note.NoteBuilder publicNoteBuilder() {
+        return note().type(NoteType.PUBLIC);
     }
 
     public static Note privateNote() {
-        return note(NoteType.PRIVATE);
+        return privateNoteBuilder().build();
     }
 
-    private static Note note(NoteType type) {
+    public static Note.NoteBuilder privateNoteBuilder() {
+        return note().type(NoteType.PRIVATE).password("password");
+    }
+
+    private static Note.NoteBuilder note() {
         return Note.builder()
-                .type(type)
-                .password(type == NoteType.PRIVATE ? "password" : null)
                 .title("title")
                 .expirationDate(now().plusDays(10))
-                .data("data")
-                .build();
+                .data("data");
     }
 }

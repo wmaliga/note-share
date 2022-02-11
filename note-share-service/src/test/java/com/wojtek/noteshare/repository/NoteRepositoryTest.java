@@ -1,7 +1,6 @@
 package com.wojtek.noteshare.repository;
 
 import com.wojtek.noteshare.repository.model.Note;
-import com.wojtek.noteshare.repository.model.NoteType;
 import com.wojtek.noteshare.util.NoteTestBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import javax.validation.ConstraintViolationException;
 
+import static java.time.LocalDate.now;
 import static org.assertj.core.api.Assertions.*;
 
 @DataJpaTest
@@ -25,14 +25,16 @@ public class NoteRepositoryTest {
 
     @Test
     public void findNotesByTypeTest() {
-        Note publicNote = NoteTestBuilder.publicNote();
-        Note privateNote = NoteTestBuilder.privateNote();
+        Note publicNote = NoteTestBuilder.publicNoteBuilder().title("public").build();
+        Note privateNote = NoteTestBuilder.privateNoteBuilder().title("private").build();
+        Note expiredNote = NoteTestBuilder.publicNoteBuilder().title("expired").expirationDate(now().minusDays(1)).build();
 
         this.noteRepository.save(publicNote);
         this.noteRepository.save(privateNote);
+        this.noteRepository.save(expiredNote);
 
-        assertThat(this.noteRepository.findByTypeEquals(NoteType.PUBLIC)).hasSize(1);
-        assertThat(this.noteRepository.findByTypeEquals(NoteType.PRIVATE)).hasSize(1);
+        assertThat(this.noteRepository.findPublicNotes())
+                .extracting(Note::getTitle).containsOnly("public");
     }
 
     @Test

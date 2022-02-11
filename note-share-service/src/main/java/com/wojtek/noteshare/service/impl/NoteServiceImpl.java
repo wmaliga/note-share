@@ -2,6 +2,7 @@ package com.wojtek.noteshare.service.impl;
 
 import com.wojtek.noteshare.exception.InvalidDataException;
 import com.wojtek.noteshare.exception.NoteAuthorizationException;
+import com.wojtek.noteshare.exception.NoteExpiredException;
 import com.wojtek.noteshare.exception.NoteNotFoundException;
 import com.wojtek.noteshare.repository.NoteRepository;
 import com.wojtek.noteshare.repository.model.Note;
@@ -28,7 +29,7 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public List<Note> findPublicNotes() {
-        return this.noteRepository.findByTypeEquals(NoteType.PUBLIC);
+        return this.noteRepository.findPublicNotes();
     }
 
     @Override
@@ -42,6 +43,10 @@ public class NoteServiceImpl implements NoteService {
     public Note getNote(long id, String password) {
         Note note = this.noteRepository.findById(id)
                 .orElseThrow(NoteNotFoundException::new);
+
+        if (note.getExpirationDate().isBefore(now())) {
+            throw new NoteExpiredException();
+        }
 
         if (note.getType() == NoteType.PRIVATE &&
                 !note.getPassword().equals(PasswordUtil.encryptPassword(password))) {

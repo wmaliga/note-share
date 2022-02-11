@@ -1,13 +1,14 @@
 package com.wojtek.noteshare.repository;
 
 import com.wojtek.noteshare.repository.model.Note;
-import com.wojtek.noteshare.repository.model.NoteType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
 public interface NoteRepository extends JpaRepository<Note, Long> {
-    List<Note> findByTypeEquals(NoteType type);
+    @Query("SELECT n FROM Note n WHERE type = 'PUBLIC' AND expiration_date > current_date")
+    List<Note> findPublicNotes();
 }
