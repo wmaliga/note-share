@@ -24,7 +24,7 @@ public class NoteRepositoryTest {
     }
 
     @Test
-    public void findNotesByTypeTest() {
+    public void findPublicNotesTest() {
         Note publicNote = NoteTestBuilder.publicNoteBuilder().title("public").build();
         Note privateNote = NoteTestBuilder.privateNoteBuilder().title("private").build();
         Note expiredNote = NoteTestBuilder.publicNoteBuilder().title("expired").expirationDate(now().minusDays(1)).build();

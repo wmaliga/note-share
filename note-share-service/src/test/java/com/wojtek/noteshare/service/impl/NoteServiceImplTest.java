@@ -7,7 +7,6 @@ import com.wojtek.noteshare.repository.NoteRepository;
 import com.wojtek.noteshare.repository.model.Note;
 import com.wojtek.noteshare.repository.model.NoteType;
 import com.wojtek.noteshare.util.NoteTestBuilder;
-import com.wojtek.noteshare.util.PasswordUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,8 +23,6 @@ import static org.mockito.Mockito.*;
 public class NoteServiceImplTest {
 
     private static final long ID = 1L;
-
-    private static final String PASSWORD = "password";
 
     @InjectMocks
     private NoteServiceImpl noteService;
@@ -72,21 +69,17 @@ public class NoteServiceImplTest {
 
     @Test
     public void getPrivateNoteWithPasswordTest() {
-        Note note = NoteTestBuilder.privateNoteBuilder()
-                .password(PasswordUtil.encryptPassword(PASSWORD)).build();
-
+        Note note = NoteTestBuilder.privateNote();
         when(this.noteRepositoryMock.findById(ID)).thenReturn(of(note));
 
-        Note result = this.noteService.getNote(ID, PASSWORD);
+        Note result = this.noteService.getNote(ID, NoteTestBuilder.PASSWORD);
 
         assertThat(result).isEqualTo(note);
     }
 
     @Test
     public void getPrivateNoteWithoutPasswordTest() {
-        Note note = NoteTestBuilder.privateNoteBuilder()
-                .password(PasswordUtil.encryptPassword(PASSWORD)).build();
-
+        Note note = NoteTestBuilder.privateNote();
         when(this.noteRepositoryMock.findById(ID)).thenReturn(of(note));
 
         assertThatExceptionOfType(NoteAuthorizationException.class)

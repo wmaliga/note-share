@@ -7,6 +7,10 @@ import static java.time.LocalDate.now;
 
 public class NoteTestBuilder {
 
+    public static final String PASSWORD = "password";
+
+    public static final String PASSWORD_ENCRYPTED = PasswordUtil.encryptPassword(PASSWORD);
+
     public static Note publicNote() {
         return publicNoteBuilder().build();
     }
@@ -20,7 +24,7 @@ public class NoteTestBuilder {
     }
 
     public static Note.NoteBuilder privateNoteBuilder() {
-        return note().type(NoteType.PRIVATE).password("password");
+        return note().type(NoteType.PRIVATE).password(PASSWORD_ENCRYPTED);
     }
 
     private static Note.NoteBuilder note() {

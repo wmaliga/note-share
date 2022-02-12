@@ -45,7 +45,7 @@ public class NoteControllerTest {
     }
 
     @Test
-    public void getNoteMissingTest() throws Exception {
+    public void getNoteNotFoundTest() throws Exception {
         this.mockMvc.perform(get("/api/v1/notes/999999"))
                 .andExpect(status().isNotFound());
     }
@@ -83,8 +83,8 @@ public class NoteControllerTest {
 
     @Test
     public void shareIncorrectNoteTest() throws Exception {
-        Note note = NoteTestBuilder.privateNote();
-        note.setPassword("");
+        Note note = NoteTestBuilder.privateNoteBuilder()
+                .password("").build();
 
         this.mockMvc.perform(post("/api/v1/notes")
                         .contentType(MediaType.APPLICATION_JSON)
