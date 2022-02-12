@@ -32,6 +32,6 @@ export class NoteService {
   }
 
   shareNote(note: NoteShare) {
-    return this.http.post(this.url, note);
+    return this.http.post(this.url, note, {observe: 'response'});
   }
 }

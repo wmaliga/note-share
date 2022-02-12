@@ -46,6 +46,5 @@ TODO
 * Karma tests are missing
 
 ### TODO
-* Display sharing link after note is sent
 * Add new line handling when note is shared
 * Production build with Docker Compose

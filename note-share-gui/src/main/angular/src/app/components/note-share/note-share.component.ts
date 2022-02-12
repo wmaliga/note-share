@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from "@angular/common";
+import { Router } from "@angular/router";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 
 import { ToastrService } from "ngx-toastr";
 
-import { NoteService } from "../../service/note.service";
 import { NoteType } from "../../model/note.model";
+import { NoteService } from "../../service/note.service";
 
 @Component({
   selector: 'app-note-share',
@@ -21,6 +22,7 @@ export class NoteShareComponent implements OnInit {
   form: FormGroup;
 
   constructor(
+    private readonly router: Router,
     private readonly formBuilder: FormBuilder,
     private readonly datePipe: DatePipe,
     private readonly noteService: NoteService,
@@ -35,14 +37,15 @@ export class NoteShareComponent implements OnInit {
   shareNote() {
     this.noteService.shareNote(this.form.value)
       .subscribe({
-        next: () => this.onShareSuccess(),
+        next: resp => this.onShareSuccess(resp.headers.get('Location')),
         error: error => this.onShareError(error)
       });
   }
 
-  private onShareSuccess() {
+  private onShareSuccess(noteId: any) {
     this.form.reset();
     this.toast.success("Note shared successfully!")
+    this.router.navigate([`/share/link/${noteId}`]);
   }
 
   private onShareError(error: any) {

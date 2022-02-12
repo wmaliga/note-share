@@ -10,6 +10,7 @@ import { ToastrModule } from "ngx-toastr";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NoteDetailsComponent } from './components/note-details/note-details.component';
+import { NoteLinkComponent } from './components/note-link/note-link.component';
 import { NoteListComponent } from './components/note-list/note-list.component';
 import { NoteShareComponent } from './components/note-share/note-share.component';
 
@@ -17,6 +18,7 @@ import { NoteShareComponent } from './components/note-share/note-share.component
   declarations: [
     AppComponent,
     NoteDetailsComponent,
+    NoteLinkComponent,
     NoteListComponent,
     NoteShareComponent
   ],
