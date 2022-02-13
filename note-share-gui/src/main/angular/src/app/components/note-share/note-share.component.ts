@@ -59,12 +59,13 @@ export class NoteShareComponent implements OnInit {
 
   private newForm() {
     return this.formBuilder.group({
-      type: [NoteType.PRIVATE, Validators.required],
-      password: [''],
-      title: ['', Validators.required],
-      expirationDate: [this.dateAfter(10), [Validators.required, Validators.pattern(this.DATE_REGEX), NoteShareComponent.futureDateValidator]],
-      data: ['', Validators.required]
-    });
+        type: [NoteType.PRIVATE, Validators.required],
+        password: [''],
+        title: ['', Validators.required],
+        expirationDate: [this.dateAfter(10), [Validators.required, Validators.pattern(this.DATE_REGEX), NoteShareComponent.futureDateValidator]],
+        data: ['', Validators.required]
+      },
+      {validators: NoteShareComponent.passwordValidator});
   }
 
   private dateAfter(days: number) {
@@ -75,9 +76,17 @@ export class NoteShareComponent implements OnInit {
 
   private static futureDateValidator(control: FormControl) {
     return new Date(Date.parse(control.value)) > new Date() ? null : {
-      'futureDateValidator': {
-        valid: false
-      }
+      'futureDateValidator': {valid: false}
     };
+  }
+
+  private static passwordValidator(form: FormGroup) {
+    if (form.controls['type'].value === NoteType.PRIVATE && !form.controls['password'].value) {
+      return {
+        'passwordValidator': {valid: false}
+      };
+    }
+
+    return null;
   }
 }

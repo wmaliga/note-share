@@ -10,20 +10,23 @@
       </label>
     </fieldset>
   </div>
-  <div [hidden]="form.value.type === noteType.PUBLIC" class="pure-u-1 pure-u-md-4-5">
-    <label for="password">Password</label>
+  <div *ngIf="form.controls['password'] as control"
+       [hidden]="form.value.type === noteType.PUBLIC"
+       class="pure-u-1 pure-u-md-4-5">
+    <label for="password" [class.ng-invalid]="control.value === '' && control.dirty">Password</label>
     <input formControlName="password" type="password" class="pure-input-1" id="password"/>
   </div>
-  <fieldset>
-    <label for="title">Title</label>
+  <fieldset *ngIf="form.controls['title'] as control">
+    <label for="title" [class.ng-invalid]="control.invalid && control.dirty">Title</label>
     <input formControlName="title" type="text" class="pure-input-1" id="title" placeholder="Insert title of a note"/>
   </fieldset>
-  <fieldset>
-    <label for="expirationDate">Expiration date</label>
-    <input formControlName="expirationDate" type="text" class="pure-input-1" id="expirationDate" placeholder="YYYY-MM-DD"/>
+  <fieldset *ngIf="form.controls['expirationDate'] as control">
+    <label for="expirationDate" [class.ng-invalid]="control.invalid && control.dirty">Expiration date</label>
+    <input formControlName="expirationDate" type="text" class="pure-input-1" id="expirationDate"
+           placeholder="YYYY-MM-DD"/>
   </fieldset>
-  <fieldset>
-    <label for="data">Note</label>
+  <fieldset *ngIf="form.controls['data'] as control">
+    <label for="data" [class.ng-invalid]="control.invalid && control.dirty">Note</label>
     <textarea formControlName="data" class="pure-input-1" id="data" placeholder="Your note here" rows="20"></textarea>
   </fieldset>
   <button (click)="shareNote()" [disabled]="!form.valid" class="pure-button pure-button-primary">Share!</button>
