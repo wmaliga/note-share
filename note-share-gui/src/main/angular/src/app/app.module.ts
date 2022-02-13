@@ -13,6 +13,7 @@ import { NoteDetailsComponent } from './components/note-details/note-details.com
 import { NoteLinkComponent } from './components/note-link/note-link.component';
 import { NoteListComponent } from './components/note-list/note-list.component';
 import { NoteShareComponent } from './components/note-share/note-share.component';
+import { NoteFormatPipe } from "./pipes/note-format.pipe";
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { NoteShareComponent } from './components/note-share/note-share.component
     NoteDetailsComponent,
     NoteLinkComponent,
     NoteListComponent,
-    NoteShareComponent
+    NoteShareComponent,
+    NoteFormatPipe
   ],
   imports: [
     BrowserModule,
