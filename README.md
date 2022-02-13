@@ -7,7 +7,7 @@
 ### Features
 * Sharing public and private notes
 * Public notes can be listed by all users
-* Every note has an expiration time
+* Every note may have an expiration time
 
 ### Prerequisites
 * JDK 11 ``sudo apt install openjdk-11-jdk``

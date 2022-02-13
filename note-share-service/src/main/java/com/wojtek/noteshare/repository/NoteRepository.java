@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface NoteRepository extends JpaRepository<Note, Long> {
-    @Query("SELECT n FROM Note n WHERE type = 'PUBLIC' AND expiration_date > current_date")
+    @Query("SELECT n FROM Note n WHERE type = 'PUBLIC' AND (expiration_date IS NULL OR expiration_date > current_date)")
     List<Note> findPublicNotes();
 }

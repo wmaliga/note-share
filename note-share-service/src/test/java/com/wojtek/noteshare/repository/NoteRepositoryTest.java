@@ -25,16 +25,22 @@ public class NoteRepositoryTest {
 
     @Test
     public void findPublicNotesTest() {
-        Note publicNote = NoteTestBuilder.publicNoteBuilder().title("public").build();
-        Note privateNote = NoteTestBuilder.privateNoteBuilder().title("private").build();
-        Note expiredNote = NoteTestBuilder.publicNoteBuilder().title("expired").expirationDate(now().minusDays(1)).build();
+        Note publicNote = NoteTestBuilder.publicNoteBuilder()
+                .title("public").build();
+        Note publicNoExpirationNote = NoteTestBuilder.publicNoteBuilder()
+                .title("public-no-expiration").expirationDate(null).build();
+        Note publicExpiredNote = NoteTestBuilder.publicNoteBuilder()
+                .title("public-expired").expirationDate(now().minusDays(1)).build();
+        Note privateNote = NoteTestBuilder.privateNoteBuilder()
+                .title("private").build();
 
         this.noteRepository.save(publicNote);
+        this.noteRepository.save(publicNoExpirationNote);
+        this.noteRepository.save(publicExpiredNote);
         this.noteRepository.save(privateNote);
-        this.noteRepository.save(expiredNote);
 
         assertThat(this.noteRepository.findPublicNotes())
-                .extracting(Note::getTitle).containsOnly("public");
+                .extracting(Note::getTitle).containsOnly("public", "public-no-expiration");
     }
 
     @Test

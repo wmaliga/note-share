@@ -44,7 +44,8 @@ public class NoteServiceImpl implements NoteService {
         Note note = this.noteRepository.findById(id)
                 .orElseThrow(NoteNotFoundException::new);
 
-        if (note.getExpirationDate().isBefore(now())) {
+        if (note.getExpirationDate() != null &&
+                note.getExpirationDate().isBefore(now())) {
             throw new NoteExpiredException();
         }
 
@@ -58,7 +59,8 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public void saveNote(Note note) {
-        if (note.getExpirationDate().isBefore(now())) {
+        if (note.getExpirationDate() != null &&
+                note.getExpirationDate().isBefore(now())) {
             throw new InvalidDataException("Expiration date cannot be in the past");
         }
 

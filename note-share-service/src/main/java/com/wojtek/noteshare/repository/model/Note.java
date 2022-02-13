@@ -29,7 +29,6 @@ public class Note {
     @Length(max = 100)
     private String title;
 
-    @NonNull
     private LocalDate expirationDate;
 
     @NotBlank

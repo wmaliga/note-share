@@ -19,7 +19,6 @@ public class NoteShareTo {
     private String password;
     @NotBlank
     private String title;
-    @NotNull
     @JsonFormat(pattern = "yyyy-MM-dd")
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)

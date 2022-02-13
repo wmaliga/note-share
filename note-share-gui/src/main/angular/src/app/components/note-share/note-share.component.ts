@@ -15,7 +15,7 @@ import { NoteService } from "../../service/note.service";
 })
 export class NoteShareComponent implements OnInit {
 
-  private readonly DATE_REGEX = '^(20)\\d\\d(-)(0[1-9]|1[012])\\2(0[1-9]|[12][0-9]|3[01])$';
+  private readonly DATE_REGEX = '^$|^(20)\\d\\d(-)(0[1-9]|1[012])\\2(0[1-9]|[12][0-9]|3[01])$';
 
   readonly noteType = NoteType;
 
@@ -62,7 +62,7 @@ export class NoteShareComponent implements OnInit {
         type: [NoteType.PRIVATE, Validators.required],
         password: [''],
         title: ['', Validators.required],
-        expirationDate: [this.dateAfter(10), [Validators.required, Validators.pattern(this.DATE_REGEX), NoteShareComponent.futureDateValidator]],
+        expirationDate: [this.dateAfter(10), [Validators.pattern(this.DATE_REGEX), NoteShareComponent.futureDateValidator]],
         data: ['', Validators.required]
       },
       {validators: NoteShareComponent.passwordValidator});
@@ -75,6 +75,10 @@ export class NoteShareComponent implements OnInit {
   }
 
   private static futureDateValidator(control: FormControl) {
+    if (!control.value) {
+      return null;
+    }
+
     return new Date(Date.parse(control.value)) > new Date() ? null : {
       'futureDateValidator': {valid: false}
     };
