@@ -1,6 +1,7 @@
 package com.wojtek.noteshare.repository.model;
 
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -25,11 +26,13 @@ public class Note {
     private String password;
 
     @NotBlank
+    @Length(max = 100)
     private String title;
 
     @NonNull
     private LocalDate expirationDate;
 
     @NotBlank
+    @Length(max = 4000)
     private String data;
 }
