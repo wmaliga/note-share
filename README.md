@@ -2,8 +2,6 @@
 
 # NoteShare Demo Application
 
-## Development
-
 ### Features
 * Sharing public and private notes
 * Public notes can be listed by all users
@@ -13,6 +11,10 @@
 * JDK 11 ``sudo apt install openjdk-11-jdk``
 * Maven ``sudo apt install maven``
 * Node ``nvm use v16.13.2``
+* Docker ``https://docs.docker.com/get-docker/``
+* Docker Compose ``https://docs.docker.com/compose/install/``
+
+## Development
 
 ### Running backend
 ```shell
@@ -51,6 +53,4 @@ Application will be available under:
 * Better error handling
 * Notes list pagination
 * Karma tests are missing
-
-### TODO
-* Add new line handling when note is shared
+* Note content formatting
