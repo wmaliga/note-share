@@ -28,10 +28,17 @@ npm install
 npm run start
 ```
 
+Application will be available under:
+```http://localhost:4200```
+
 ## Production
 ```shell
-TODO
+mvn clean install
+docker-compose up
 ```
+
+Application will be available under:
+```http://localhost:80```
 
 ## What can be done better?
 
@@ -47,4 +54,3 @@ TODO
 
 ### TODO
 * Add new line handling when note is shared
-* Production build with Docker Compose

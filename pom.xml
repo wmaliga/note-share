@@ -48,6 +48,12 @@
                     <artifactId>frontend-maven-plugin</artifactId>
                     <version>1.12.1</version>
                 </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>1.6.0</version>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>

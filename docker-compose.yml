@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  gui:
+    build: ./note-share-gui
+    image: com.wojtek/note-service-gui:0.0.1-SNAPSHOT
+    ports:
+      - "80:80"
+  backend:
+    build: ./note-share-service
+    image: com.wojtek/note-share-service:0.0.1-SNAPSHOT
+    ports:
+      - "8080:8080"
