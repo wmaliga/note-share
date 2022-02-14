@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpErrorResponse } from "@angular/common/http";
 import { ActivatedRoute } from "@angular/router";
 
 import { EMPTY, map, Observable, switchMap, take } from "rxjs";
-import { ToastrService } from "ngx-toastr";
 
+import { ToastrService } from "ngx-toastr";
 import { Note, NoteType } from "../../model/note.model";
 import { NoteService } from "../../service/note.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
@@ -48,7 +49,10 @@ export class NoteDetailsComponent implements OnInit {
     this.id$.pipe(
       take(1),
       switchMap(id => this.noteService.getNoteType(id))
-    ).subscribe(type => this.setNoteType(type));
+    ).subscribe({
+      next: type => this.setNoteType(type),
+      error: error => this.handleError(error)
+    });
   }
 
   private setNoteType(type: NoteType) {
@@ -65,12 +69,32 @@ export class NoteDetailsComponent implements OnInit {
       switchMap(id => this.noteService.getNote(id, this.form.value.password))
     ).subscribe({
       next: note => this.setNote(note),
-      error: () => this.toast.error("Password not accepted.")
+      error: error => this.handleError(error)
     });
   }
 
   setNote(note: Note) {
     this.note = note;
     this.loading = false;
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    switch (error.status) {
+      case 401: {
+        this.toast.error("Incorrect password")
+        break;
+      }
+      case 404: {
+        this.toast.error("Note not found")
+        break;
+      }
+      case 410: {
+        this.toast.error("Note not found")
+        break;
+      }
+      default: {
+        this.toast.error("Ups! Something gone wrong...")
+      }
+    }
   }
 }
