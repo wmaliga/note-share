@@ -8,7 +8,7 @@ import { Note, NoteShare, NoteType } from "../model/note.model";
 })
 export class NoteService {
 
-  private readonly url = "http://localhost:8080/api/v1/notes"
+  private readonly url = `http://${window.location.hostname}:8080/api/v1/notes`
 
   constructor(private readonly http: HttpClient) {
   }

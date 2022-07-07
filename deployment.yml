@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: note-share
+spec:
+  selector:
+    matchLabels:
+      app: note-share
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: note-share
+    spec:
+      containers:
+        - name: note-share-gui
+          image: 889055510083.dkr.ecr.eu-north-1.amazonaws.com/note-share-gui:latest
+          ports:
+            - containerPort: 80
+        - name: note-share-service
+          image: 889055510083.dkr.ecr.eu-north-1.amazonaws.com/note-share-service:latest
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: note-share-svc
+  labels:
+    app: note-share-svc
+spec:
+  ports:
+    - name: note-share-gui-port
+      port: 80
+      protocol: TCP
+    - name: note-share-service-port
+      port: 8080
+      protocol: TCP
+  selector:
+    app: note-share
+  type: LoadBalancer
